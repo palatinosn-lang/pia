@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romantic Envelope</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffe4e1, #ffb6c1, #ff69b4);
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+            position: relative;
+        }
+        .heart {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            fill: #ff1493;
+            opacity: 0.7;
+            animation: floatHearts 6s ease-in-out infinite;
+        }
+        .heart:nth-child(odd) { animation-delay: -2s; }
+        .heart:nth-child(even) { animation-delay: -4s; }
+        @keyframes floatHearts {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-25px) rotate(10deg); opacity: 1; }
+        }
+        .envelope {
+            width: 350px;
+            height: 250px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.5s, box-shadow 0.5s;
+            z-index: 10;
+        }
+        .envelope:hover { box-shadow: 0 0 25px rgba(255, 20, 147, 0.5); }
+        .envelope svg { width: 100%; height: 100%; }
+        .flap { transition: transform 0.5s; }
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            text-align: center;
+            font-size: 16px;
+            color: #5a3a1a;
+            background: #f5f5dc;
+            border: 2px solid #daa520;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            width: 320px;
+            height: auto;
+            overflow: auto;
+            line-height: 1.5;
+        }
+        .envelope.open .flap { transform: rotateX(180deg); }
+        .envelope.open .message { opacity: 1; }
+
+        /* Yes/No buttons */
+        .response-buttons {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .response-buttons button {
+            background: #ff69b4;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
+        .response-buttons button:hover {
+            transform: scale(1.1);
+            background: #ff1493;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts -->
+    <svg class="heart" style="top: 10%; left: 10%;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="heart" style="top: 20%; right: 15%;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="heart" style="top: 50%; left: 5%;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="heart" style="top: 70%; right: 10%;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="heart" style="top: 80%; left: 20%;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="heart" style="top: 30%; right: 5%;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+
+    <!-- Envelope -->
+    <div class="envelope" id="envelope">
+        <svg viewBox="0 0 350 250">
+            <rect x="10" y="50" width="330" height="180" fill="#ffb6c1" stroke="#ff1493" stroke-width="3"/>
+            <polygon points="10,50 175,10 340,50" fill="#ff69b4" stroke="#ff1493" stroke-width="3" class="flap"/>
+        </svg>
+        <div class="message" id="message">
+            <p>To my Piya,</p>
+            <p>Our past couple of months were rough and jagged. We faced many hurdles, and yet, unbeknownst to us, here we are.</p>
+            <p>I've enjoyed your presence. Every single time we're together, I wish we'd be locked in a cage where we're free to be us—in our serious and quirkiest sides—which is one of the many reasons I fell, and fell harder, for you. Please know that I see all that you are, and I am grateful and proud of what we already are.</p>
+            <p>Now, if it isn't too much trouble, Soppheia, may I PLEASE be your Valentine? The matcha to my Spanish latte, the softness to my side.</p>
+
+            <!-- Formspree Yes/No buttons -->
+            <form action="https://formspree.io/f/mwvneqpo" method="POST" class="response-buttons">
+                <button type="submit" name="response" value="Yes ❤️">Yes ❤️</button>
+                <button type="submit" name="response" value="No 💔">No 💔</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const envelope = document.getElementById('envelope');
+        const openSound = document.getElementById('openSound');
+        const closeSound = document.getElementById('closeSound');
+
+        envelope.addEventListener('click', () => {
+            envelope.classList.toggle('open');
+            if (envelope.classList.contains('open')) {
+                openSound.play();
+            } else {
+                closeSound.play();
+            }
+        });
+    </script>
+</body>
+</html>
